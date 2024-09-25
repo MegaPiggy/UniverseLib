@@ -593,31 +593,6 @@ namespace UniverseLib
 #endregion
 
 
-#region Singleton finder
-
-        internal override void Internal_FindSingleton(string[] possibleNames, Type type, BF flags, List<object> instances)
-        {
-            PropertyInfo pi;
-            foreach (string name in possibleNames)
-            {
-                pi = type.GetProperty(name, flags);
-                if (pi != null)
-                {
-                    object instance = pi.GetValue(null, null);
-                    if (instance != null)
-                    {
-                        instances.Add(instance);
-                        return;
-                    }
-                }
-            }
-
-            base.Internal_FindSingleton(possibleNames, type, flags, instances);
-        }
-
-#endregion
-
-
 #region Force-loading game modules
 
         // Helper for IL2CPP to try to make sure the Unhollowed game assemblies are actually loaded.

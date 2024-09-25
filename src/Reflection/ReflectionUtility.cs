@@ -221,6 +221,22 @@ public class ReflectionUtility
 
     internal virtual void Internal_FindSingleton(string[] possibleNames, Type type, BindingFlags flags, List<object> instances)
     {
+        // Look for an Instance property.
+        PropertyInfo pi;
+        foreach (string name in possibleNames)
+        {
+            pi = type.GetProperty(name, flags);
+            if (pi != null)
+            {
+                object instance = pi.GetValue(null, null);
+                if (instance != null)
+                {
+                    instances.Add(instance);
+                    return;
+                }
+            }
+        }
+
         // Look for a typical Instance backing field.
         FieldInfo fi;
         foreach (string name in possibleNames)
